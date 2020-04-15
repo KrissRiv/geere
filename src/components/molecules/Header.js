@@ -2,7 +2,7 @@ import React from "react";
 import Navbar from "react-bootstrap/Navbar";
 
 import Logo from "../atoms/Icon";
-import sourceLogo from "../../img/geere-logo.png";
+import sourceLogo from "../../assets/img/geere-logo.png";
 
 function Header() {
   return (
