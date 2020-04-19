@@ -1,67 +1,64 @@
-import React, { Component } from "react";
-import { Map, InfoWindow, Marker, GoogleApiWrapper } from "google-maps-react";
-import styled from 'styled-components'
+import React, { useState, useEffect, useRef } from "react";
+import { Map, GoogleApiWrapper } from "google-maps-react";
+import styled from "styled-components";
 
 import Header from "../molecules/Header";
+import Loading from "../molecules/Loading";
+import MarkCard from "../molecules/MarkCard";
 
 const Container = styled.section`
+`;
 
-`
+const MapContainer = (props) => {
+  const [location, setCurrentLocation] = useState({
+    lat: 0,
+    lng: 0,
+  });
 
-
-export class MapContainer extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      currentLocation: {
-        lat: 0,
-        lng: 0,
-      },
-    };
-  }
-  componentDidMount() {
+  useEffect(() => {
     if (navigator && navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((pos) => {
-        const coords = pos.coords;
-        this.setState({
-          currentLocation: {
+      const getInitialLocation = async () => {
+        await navigator.geolocation.getCurrentPosition((pos) => {
+          const coords = pos.coords;
+          setCurrentLocation({
             lat: coords.latitude,
             lng: coords.longitude,
-          },
+          });
         });
-      });
-
-      /* this.map = new google.maps.Map(document.getElementById('map'), {
-          center: {lat: -34.397, lng: 150.644},
-          zoom: 8
-        }); */
-    } else {
-      //TODO:
+      };
+      getInitialLocation();
     }
-  }
+  }, []);
 
-  mapClicked(mapProps, map, clickEvent) {
-    console.log("mapProps", mapProps);
-    console.log("map", map);
-    console.log("clickEvent", clickEvent);
-  }
+  const [selectedLocation, setSelectedLocation] = useState({});
+  const [mapMarker, setMapMarker] = useState({});
+  const [isNewLocation, setNewLocation] = useState(false);
+  const [showingInfoWindow, setShowingInfoWindow] = useState(false);
 
-  render() {
-    const { currentLocation } = this.state;
-    return (
-      <Container>
-        <Header />
-        <Map
-          center={{ ...currentLocation }}
-          google={this.props.google}
-          onClick={this.mapClicked}
-          zoom={14}
-        />
-      </Container>
-    );
-  }
-}
+  const handleClickMap = (pros, map, e) => {
+    setSelectedLocation(e.latLng);
+    map.panTo(e.latLng);
+    setNewLocation(true);
+  };
+
+  return (
+    <Container>
+      <Header />
+      <Map
+        center={location}
+        google={props.google}
+        onClick={handleClickMap}
+        zoom={14}
+      >
+        {isNewLocation && (
+          <MarkCard google={props.google} position={selectedLocation} />
+        )}
+      </Map>
+    </Container>
+  );
+};
 
 export default GoogleApiWrapper({
   apiKey: "AIzaSyD30_JunAh0N7lBhJKpbeLDdF7FhyvuUxY",
+  LoadingContainer: Loading,
 })(MapContainer);
