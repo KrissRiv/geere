@@ -1,13 +1,9 @@
-import React from 'react';
+import React, { useRef } from "react";
 
-import MapContainer from './components/organisms/MapContainer';
+import MapContainer from "./components/organisms/MapContainer";
 
 function App() {
-  return (
-    <div className="App">
-      <MapContainer/>
-    </div>
-  );
+  return <MapContainer />;
 }
 
 export default App;
