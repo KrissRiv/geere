@@ -4,7 +4,7 @@ import Navbar from "react-bootstrap/Navbar";
 import Logo from "../atoms/Icon";
 import sourceLogo from "../../assets/img/geere-logo.png";
 
-function Header() {
+const Header = () => {
   return (
     <Navbar bg="light" variant="light">
       <Navbar.Brand href="#home">
