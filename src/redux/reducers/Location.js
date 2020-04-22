@@ -6,14 +6,16 @@ const initialState = {
 };
 
 const LocationReducer = (state = initialState, action) => {
-  console.log("state", state)
-  console.log("action", action)
-  console.log("types.GET_ALL_LOCATIONS", types.GET_ALL_LOCATIONS)
   switch (action.type) {
     case types.GET_ALL_LOCATIONS: {
       return {
         ...state,
         locations: action.payload.locations
+      };
+    }
+    case types.SET_NEW_LOCATION: {
+      return {
+        ...state,
       };
     }
     default: return state;
