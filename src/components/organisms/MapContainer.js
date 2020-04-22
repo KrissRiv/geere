@@ -7,13 +7,11 @@ import Header from "../molecules/Header";
 import Loading from "../molecules/Loading";
 import MarkCard from "../molecules/MarkCard";
 
-//import LocationReducer from "../../redux/reducers/Location";
 import { GetAllLocations } from "../../redux/actions/actions";
 
 const Container = styled.section``;
 
 const MapContainer = (props) => {
-  //const { getAllLocations } = props;
   const dispatch = useDispatch();
   const places = useSelector((state) => state.LocationReducer.locations);
 
@@ -23,7 +21,6 @@ const MapContainer = (props) => {
   });
   useEffect(() => {
     dispatch(GetAllLocations());
-    console.log("places", places);
     if (navigator && navigator.geolocation) {
       const getInitialLocation = async () => {
         await navigator.geolocation.getCurrentPosition((pos) => {
@@ -36,18 +33,10 @@ const MapContainer = (props) => {
       };
       getInitialLocation();
     }
-    //setAllLocations(getAllLocations());
   }, []);
 
-  const [allLocations, setAllLocations] = useState({});
-  /* useEffect(() => {
-    setAllLocations(getAllLocations());
-  }, []); */
-
   const [selectedLocation, setSelectedLocation] = useState({});
-  //const [mapMarker, setMapMarker] = useState({});
   const [isNewLocation, setNewLocation] = useState(false);
-  //const [showingInfoWindow, setShowingInfoWindow] = useState(false);
 
   const handleClickMap = (props, map, e) => {
     setSelectedLocation(e.latLng);
@@ -71,19 +60,6 @@ const MapContainer = (props) => {
     </Container>
   );
 };
-
-/* const mapStateToProps = (state) => {
-  console.log(state);
-  return {
-    locations: state.LocationReducer.locations,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    getAllLocations: () => dispatch(GetAllLocations()),
-  };
-};*/
 
 export default GoogleApiWrapper({
   apiKey: "AIzaSyD30_JunAh0N7lBhJKpbeLDdF7FhyvuUxY",
