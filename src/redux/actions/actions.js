@@ -3,24 +3,26 @@ import * as types from "./actionsTypes";
 export const GetAllLocations = () => ({
   type: types.GET_ALL_LOCATIONS,
   payload: {
-    locations: localStorage.getItem("locations"),
+    locations: JSON.parse(localStorage.getItem("locations")),
   },
 });
 
 export const SetNewLocation = (data) => {
-  localStorage.setItem("locations", JSON.stringify([{
+  const locations =
+    (localStorage.getItem("locations") &&
+      JSON.parse(localStorage.getItem("locations"))) ||
+    [];
+  locations.unshift({
     icon: data.icon,
     name: data.name,
     photo: data.photo,
-    ...data.position
-  }]));
+    position: {...data.position},
+  });
+  localStorage.setItem("locations", JSON.stringify(locations));
   return {
     type: types.SET_NEW_LOCATION,
     payload: {
-      icon: data.icon,
-      name: data.name,
-      photo: data.photo,
-      ...data.position
+      isLoading: false,
     },
   };
 };

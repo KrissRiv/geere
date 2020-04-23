@@ -5,7 +5,6 @@ import styled from "styled-components";
 
 import Button from "../atoms/Button";
 import Pin from "../atoms/Icon";
-import Mark from "../atoms/Mark";
 import { SetNewLocation } from "../../redux/actions/actions";
 
 import PinNewLocation from "../../assets/img/new-location.png";
@@ -43,10 +42,9 @@ const Container = styled.section`
   }
 `;
 
-const MarkCard = (props) => {
+const NewMark = (props) => {
   const photoLocation = `https://maps.googleapis.com/maps/api/streetview?location=${props.position.lat()},${props.position.lng()}&size=256x256&key=AIzaSyD30_JunAh0N7lBhJKpbeLDdF7FhyvuUxY&signature=21fXPzD-w52lHVVrDgB0IBEm8hQ=`;
   const dispatch = useDispatch();
-  const [newLocation, setNewLocation] = useState({});
   const [nameLocation, setNameLocation] = useState("");
   const [validated, setValidated] = useState(false);
 
@@ -59,6 +57,7 @@ const MarkCard = (props) => {
         photo: photoLocation,
       })
     );
+    props.onNewMarker(false);
   };
 
   const validatedForm = () => {
@@ -71,7 +70,6 @@ const MarkCard = (props) => {
 
   return (
     <Container>
-      <Mark {...props} />
       <Card style={{ width: "18rem" }}>
         <Card.Body>
           <Form noValidate validated={validated} onSubmit={handleSaveSubmit}>
@@ -113,4 +111,4 @@ const MarkCard = (props) => {
   );
 };
 
-export default MarkCard;
+export default NewMark;
